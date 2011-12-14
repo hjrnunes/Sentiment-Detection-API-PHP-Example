@@ -7,7 +7,8 @@ for short social texts.
 This client has some hard coded (but real) tweets which are passed to the
 API.
 
-You need to add your Developer Keys found on the Mashape Dashboard.
+You need to add your Developer Keys found on the Mashape Dashboard and subscribe
+to a plan on the Mashape API page (http://www.mashape.com/apis/Sentiment+Analysis/pricing)
 */
 require_once("SentimentAnalysis.php");
 ?>
