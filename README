@@ -1,0 +1,19 @@
+-- About --
+An example PHP client for the Chatterbox Analytics Sentiment Detection API delivered through the Mashape platform.  The API is designed specifically for short social texts.
+
+This client has some hard coded (but real) tweets which are passed to the API.
+
+You need to add your Developer Keys found on the Mashape Dashboard.
+
+-- Code --
+The example code is found in example.php You can put this on your webserver, or if you have PHP installed locally run:
+
+php example.php
+
+The mashape folder contains the Mashape API code.  At the time of writing this was current (December 2012), although you should check for a new version.
+
+-- Output --
+example_output.html contains the output of this PHP script.
+
+-- Contact --
+api@cbanalytics.co.uk
