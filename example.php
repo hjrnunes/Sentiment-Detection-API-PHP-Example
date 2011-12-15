@@ -7,10 +7,12 @@ for short social texts.
 This client has some hard coded (but real) tweets which are passed to the
 API.
 
-You need to add your Developer Keys found on the Mashape Dashboard and subscribe
-to a plan on the Mashape API page (http://www.mashape.com/apis/Sentiment+Analysis/pricing)
+You need to add your Developer Keys found on the Mashape Dashboard.
+If you are going to use the paid for API you must subscibe to a plan on 
+the Mashape API page (http://www.mashape.com/apis/Sentiment+Analysis/pricing)
 */
 require_once("SentimentAnalysis.php");
+require_once("SentimentAnalysisFree.php")
 ?>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
@@ -25,8 +27,12 @@ require_once("SentimentAnalysis.php");
    $publicKey = '';
    $privateKey = '';
    
-   //Build the API object with your keys..
-   $chatterboxAPI = new SentimentAnalysis($publicKey, $privateKey);
+   //Build the free API object with your keys..
+   $chatterboxAPI = new SentimentAnalysisFree($publicKey, $privateKey);
+   
+   //If you wish to use the paid-for flavour API uncomment
+   //the next line
+   //$chatterboxAPI = new SentimentAnalysis($publicKey, $privateKey);
    
    //Our hard coded sample tweets.  Your application will figure out 
    //what it needs...
@@ -52,39 +58,43 @@ require_once("SentimentAnalysis.php");
 	   //Uncomment this line if you want to inspect the result.
 	   //print_r($classification);
 	   
-	   //Value is the predicted strength of the sentiment in the text
-	   $sentiment_value = (float)$classification->value;
-	   
-	   //Identify the most positive message
-	   if ($sentiment_value > $highestNumber){
-	    $highestNumber = $sentiment_value;
-	    $highestText = $sampleText;
-	   }
-	   
-	   //Now we need the absolute value of the sentiment value.
-	   $abs_sentiment_value = abs($sentiment_value);
-	  
-	   if ($abs_sentiment_value < 0.25){
-		   //As a consumer of this API you will need to experiment with
-		   //which cut-off value works best for your application.
-		   print "<p style='color:orange'>Hmm. Weak or neutral emotion it seems.</p>";
+	   if ($classification->code){
+	   	   //if there was an error
+	   	   echo "<p>Error: " . (int)$classification->code . ", " . (string)$classification->message . "</p>";
 	   }
 	   else{
-	   	   //Sent is the label of the sentiment.  1 is positive,
-	   	   //-1 is negative
-		   $sentiment_label = (integer)$classification->sent;
-		   if ($sentiment_label > 0){
-			   print "<p style='color:green'>W00t! Seems like a positive message</p>";
+		   //Value is the predicted strength of the sentiment in the text
+		   $sentiment_value = (float)$classification->value;
+		   
+		   //Identify the most positive message
+		   if ($sentiment_value > $highestNumber){
+               $highestNumber = $sentiment_value;
+               $highestText = $sampleText;
+		   }
+		   
+		   //Now we need the absolute value of the sentiment value.
+		   $abs_sentiment_value = abs($sentiment_value);
+		  
+		   if ($abs_sentiment_value < 0.25){
+			   //As a consumer of this API you will need to experiment with
+			   //which cut-off value works best for your application.
+			   print "<p style='color:orange'>Hmm. Weak or neutral emotion it seems.</p>";
 		   }
 		   else{
-			print "<p style='color:red'>Oh foo. Seems like a negative one</p>";	   
+			   //Sent is the label of the sentiment.  1 is positive,
+			   //-1 is negative
+			   $sentiment_label = (integer)$classification->sent;
+			   if ($sentiment_label > 0){
+				   print "<p style='color:green'>W00t! Seems like a positive message</p>";
+			   }
+			   else{
+                   print "<p style='color:red'>Oh foo. Seems like a negative one</p>";	   
+			   }
 		   }
 	   }
 	   print "<br />";
    }
    print "<p> The most positive message is: " . $highestText . "</p>";
-   
-   
 ?>
    </body>
 </html>
