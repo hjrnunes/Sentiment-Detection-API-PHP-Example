@@ -1,17 +1,15 @@
 <?php
 /*
-An example PHP client for the Chatterbox Analytics Sentiment Detection API
+An example PHP client for the Chatterbox Sentiment Detection API
 delivered through the Mashape platform.  The API is designed specifically
 for short social texts.
 
 This client has some hard coded (but real) tweets which are passed to the
 API.
 
-You need to add your Developer Keys found on the Mashape Dashboard.
-If you are going to use the paid for API you must subscibe to a plan on 
-the Mashape API page (http://www.mashape.com/apis/Sentiment+Analysis/pricing)
+You need to add your keys found on the Mashape Dashboard.
 */
-require_once("SentimentAnalysis.php");
+    
 require_once("SentimentAnalysisFree.php")
 ?>
 
@@ -19,7 +17,7 @@ require_once("SentimentAnalysisFree.php")
    "http://www.w3.org/TR/html4/strict.dtd">
 <html>
    <head>
-      <title>Sample Sentiment Detection API from Chatterbox Analytics</title>
+      <title>Sample Sentiment Detection API from Chatterbox</title>
    </head>
    <body>
 <?php

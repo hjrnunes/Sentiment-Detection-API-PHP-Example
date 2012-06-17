@@ -33,7 +33,7 @@ require_once(dirname(__FILE__) . "/AuthUtil.php");
 
 class HttpClient {
 
-	public static function doRequest($httpMethod, $url, $parameters, $mashapeAuthentication, $publicKey, $privateKey, $encodeJson) {
+	public static function doRequest($httpMethod, $url, $parameters, $publicKey, $privateKey, $encodeJson = true) {
 		
 		if (!($httpMethod == HttpMethod::DELETE || $httpMethod == HttpMethod::GET ||
 		$httpMethod == HttpMethod::POST || $httpMethod == HttpMethod::PUT)) {
@@ -42,7 +42,7 @@ class HttpClient {
 		
 		UrlUtils::prepareRequest($url, $parameters, ($httpMethod != HttpMethod::GET) ? true : false);
 		
-		$response = self::execRequest($httpMethod, $url, $parameters, $mashapeAuthentication, $publicKey, $privateKey);
+		$response = self::execRequest($httpMethod, $url, $parameters, $publicKey, $privateKey);
 
 		if (!$encodeJson) {
 			return $response;
@@ -60,14 +60,14 @@ class HttpClient {
 		return $jsonResponse;
 	}
 
-	private static function execRequest($httpMethod, $url, $parameters, $mashapeAuthentication, $publicKey, $privateKey) {
+	private static function execRequest($httpMethod, $url, $parameters, $publicKey, $privateKey) {
 		$data = null;
 		if ($httpMethod != HttpMethod::GET) {
 			$url = self::removeQueryString($url);
 			$data = http_build_query($parameters);
 		}
 		
-		$headers = ($mashapeAuthentication) ? AuthUtil::generateAuthenticationHeader($publicKey, $privateKey) : "";
+		$headers = AuthUtil::generateAuthenticationHeader($publicKey, $privateKey);
 		$headers .= UrlUtils::generateClientHeaders();
 		
 		$opts = array('http' =>
