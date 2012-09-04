@@ -28,10 +28,6 @@ require_once("SentimentAnalysisFree.php")
 	//Build the free API object with your keys..
 	$chatterboxAPI = new SentimentAnalysisFree($publicKey, $privateKey);
 	
-	//If you wish to use the paid-for flavour API uncomment
-	//the next line
-	//$chatterboxAPI = new SentimentAnalysis($publicKey, $privateKey);
-	
 	//Our hard coded sample tweets.  Your application will figure out
 	//what it needs...
 	$sampleTexts = array(
@@ -51,18 +47,18 @@ require_once("SentimentAnalysisFree.php")
 		
 		//Here we do the actual classification.  We pass in a language
 		//identifier and the text we wish to be classified.
-		$classification = $chatterboxAPI->classifytext("en",$sampleText);
+		$classificationResponse = $chatterboxAPI->classifytext("en",$sampleText);
 		
 		//Uncomment this line if you want to inspect the result.
-		//print_r($classification);
+		//print_r($classificationResponse);
 		
-		if ($classification->code){
+		if ($classificationResponse->statusCode != 200){
 			//if there was an error
-			echo "<p>Error: " . (int)$classification->code . ", " . (string)$classification->message . "</p>";
+			echo "<p>Error: " . (int)$classificationResponse->statusCode . "</p>";
 		}
 		else{
 			//Value is the predicted strength of the sentiment in the text
-			$sentiment_value = (float)$classification->value;
+			$sentiment_value = (float)$classificationResponse->body->value;
 			
 			//Identify the most positive message
 			if ($sentiment_value > $highestNumber){
